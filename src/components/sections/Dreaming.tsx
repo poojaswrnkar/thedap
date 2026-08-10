@@ -54,7 +54,7 @@ export default function Dreaming() {
         {/* Stacked card slider */}
         <div className="relative">
           <div className="relative mx-auto aspect-4/5 w-full max-w-[26rem]">
-            <div className="absolute inset-6 rounded-[3rem] bg-brand-500/25 blur-[80px]" />
+            <div className="absolute inset-6 rounded-[3rem] bg-gold-400/20 blur-[80px]" />
 
             <AnimatePresence mode="popLayout">
               {dreamingSlides.map((s, i) => {

@@ -140,7 +140,7 @@ function TripCard({ trip, index, tabId }: { trip: Trip; index: number; tabId: st
       className="group ring-aurora glass flex w-[72%] shrink-0 snap-start flex-col rounded-4xl p-5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-30px_rgba(30,27,23,0.35)] sm:w-auto"
     >
       <div className="flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-500/25 bg-brand-50 px-2.5 py-1 text-[0.66rem] font-bold tracking-[0.1em] text-brand-600 uppercase">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-gold-500/25 bg-gold-100/70 px-2.5 py-1 text-[0.66rem] font-bold tracking-[0.1em] text-gold-700 uppercase">
           <TypeIcon className="size-3" />
           {trip.type}
         </span>
@@ -172,7 +172,7 @@ function TripCard({ trip, index, tabId }: { trip: Trip; index: number; tabId: st
           const Icon = metaIcons[m.icon as keyof typeof metaIcons] ?? Clock;
           return (
             <span key={m.label} className="inline-flex items-center gap-1.5">
-              <Icon className="size-3.5 text-brand-400" />
+              <Icon className="size-3.5 text-gold-500" />
               {m.label}
             </span>
           );

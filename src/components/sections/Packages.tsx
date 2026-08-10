@@ -134,7 +134,7 @@ function PackageCard({ pkg, index }: { pkg: (typeof packages)[number]; index: nu
         </div>
 
         <div className="p-6">
-          <span className="rounded-full border border-brand-500/25 bg-brand-50 px-2.5 py-1 text-[0.64rem] font-semibold tracking-[0.12em] text-brand-600 uppercase">
+          <span className="rounded-full border border-gold-500/25 bg-gold-100/70 px-2.5 py-1 text-[0.64rem] font-semibold tracking-[0.12em] text-gold-700 uppercase">
             {pkg.badge}
           </span>
           <h3 className="mt-3 text-xl font-bold text-ink-900 transition-colors duration-300 group-hover:text-gold-600">

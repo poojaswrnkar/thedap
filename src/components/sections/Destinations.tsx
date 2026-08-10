@@ -127,7 +127,7 @@ function DestinationCard({ d, featured }: { d: Destination; featured?: boolean }
 
         <div className={cn("flex flex-col p-6", !featured && "flex-1")}>
           <div className="mb-3 flex items-start justify-between gap-3">
-            <span className="rounded-full border border-brand-500/25 bg-brand-50 px-2.5 py-1 text-[0.66rem] font-semibold tracking-[0.14em] text-brand-600 uppercase">
+            <span className="rounded-full border border-gold-500/25 bg-gold-100/70 px-2.5 py-1 text-[0.66rem] font-semibold tracking-[0.14em] text-gold-700 uppercase">
               {d.region}
             </span>
             <button

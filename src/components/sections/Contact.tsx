@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import {
   CheckCircle2,
+  ChevronDown,
   Clock,
   Loader2,
   Mail,
@@ -35,8 +36,10 @@ const details = [
   { icon: Clock, title: "Working Hours", lines: [...site.contact.workingHours] },
 ];
 
+/* An underlined "reservation form" field rather than a filled box —
+ * quieter, and it reads as considered rather than a generic UI kit. */
 const inputCls =
-  "w-full rounded-2xl border border-ink-900/14 bg-white/70 px-4 py-3.5 text-[0.92rem] text-ink-900 placeholder:text-ink-300 transition-all duration-300 focus:border-gold-500/60 focus:bg-white focus:outline-none";
+  "w-full rounded-none border-0 border-b-2 border-ink-900/14 bg-transparent px-1 pt-1 pb-3 text-[0.92rem] text-ink-900 placeholder:text-ink-300 transition-colors duration-300 focus:border-gold-500 focus:outline-none";
 
 export default function Contact() {
   const [status, setStatus] = useState<Status>(null);
@@ -89,14 +92,15 @@ export default function Contact() {
         />
 
         <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          {/* Contact details */}
-          <div className="flex flex-col gap-3.5">
+          {/* Contact details — one quiet panel, rows divided by a hairline
+              rather than four competing cards. */}
+          <div className="glass flex h-full flex-col divide-y divide-ink-900/8 rounded-4xl px-1 py-1 sm:px-2">
             {details.map((d, i) => {
               const Icon = d.icon;
               const inner = (
-                <div className="group glass flex h-full items-start gap-4 rounded-3xl p-5 transition-all duration-400 hover:-translate-y-1 hover:border-gold-400/35">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-brand-400 to-brand-600 text-white transition-transform duration-400 group-hover:scale-110">
-                    <Icon className="size-5" />
+                <div className="group flex items-start gap-4 rounded-3xl p-4 transition-colors duration-400 hover:bg-ink-900/[0.03] sm:p-5">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-gold-500/35 text-gold-600 transition-all duration-400 group-hover:border-ink-900 group-hover:bg-ink-900 group-hover:text-gold-300">
+                    <Icon className="size-[1.05rem]" />
                   </span>
                   <div>
                     <h4 className="text-[0.95rem] font-semibold text-ink-900">{d.title}</h4>
@@ -113,7 +117,7 @@ export default function Contact() {
               return (
                 <Reveal key={d.title} delay={i * 0.08} from="right">
                   {d.href ? (
-                    <a href={d.href} className="block h-full">
+                    <a href={d.href} className="block">
                       {inner}
                     </a>
                   ) : (
@@ -143,16 +147,24 @@ export default function Contact() {
                 required
               />
 
-              <select className={inputCls} name="destination" defaultValue="" required>
-                <option value="" disabled className="bg-white text-ink-900">
-                  Select Destination *
-                </option>
-                {destinationOptions.map((d) => (
-                  <option key={d} value={d} className="bg-white text-ink-900">
-                    {d}
+              <div className="relative">
+                <select
+                  className={`${inputCls} appearance-none pr-8`}
+                  name="destination"
+                  defaultValue=""
+                  required
+                >
+                  <option value="" disabled className="bg-white text-ink-900">
+                    Select Destination *
                   </option>
-                ))}
-              </select>
+                  {destinationOptions.map((d) => (
+                    <option key={d} value={d} className="bg-white text-ink-900">
+                      {d}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute top-1 right-1 size-4 text-ink-300" />
+              </div>
 
               <textarea
                 className={`${inputCls} min-h-32 resize-y`}
@@ -196,7 +208,7 @@ export default function Contact() {
               </button>
 
               <p className="mt-1 flex items-center justify-center gap-2 text-center text-[0.78rem] text-ink-500">
-                <ShieldCheck className="size-3.5 text-brand-400" />
+                <ShieldCheck className="size-3.5 text-gold-600" />
                 Your information is safe with us. We respect your privacy.
               </p>
 

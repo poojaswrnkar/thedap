@@ -133,7 +133,7 @@ export default function TermsPage() {
                   {s.methods.map((m) => (
                     <span
                       key={m}
-                      className="rounded-full border border-brand-500/25 bg-brand-50 px-3 py-1.5 text-[0.74rem] font-medium text-brand-600"
+                      className="rounded-full border border-gold-500/25 bg-gold-100/70 px-3 py-1.5 text-[0.74rem] font-medium text-gold-700"
                     >
                       {m}
                     </span>
@@ -360,7 +360,7 @@ function Card({
       )}
     >
       <h3 className="mb-4 flex items-center gap-3 text-lg font-bold text-ink-900">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-brand-400 to-brand-600 text-white">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-ink-900 text-gold-300">
           {icon}
         </span>
         {title}

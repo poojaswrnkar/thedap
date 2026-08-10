@@ -26,7 +26,7 @@ export default function About() {
         {/* Image */}
         <Reveal from="right" className="relative">
           <motion.div style={{ y: imgY }} className="relative">
-            <div className="absolute inset-8 rounded-[40%] bg-brand-500/25 blur-[90px]" />
+            <div className="absolute inset-8 rounded-[40%] bg-gold-400/20 blur-[90px]" />
             <div className="relative aspect-4/5 w-full overflow-hidden rounded-[3rem] border border-ink-900/10">
               <Image
                 src={about.image}

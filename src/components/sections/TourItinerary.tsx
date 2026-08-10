@@ -88,8 +88,8 @@ export default function TourItinerary({ days }: { days: Day[] }) {
                   {d.title}
                 </h3>
                 <p className="mt-2 text-[0.9rem] text-ink-700">{d.subtitle}</p>
-                <p className="mt-3 inline-flex items-center gap-2 text-[0.78rem] text-brand-600">
-                  <span className="size-1.5 rounded-full bg-brand-400" />
+                <p className="mt-3 inline-flex items-center gap-2 text-[0.78rem] text-gold-700">
+                  <span className="size-1.5 rounded-full bg-gold-500" />
                   {d.note}
                 </p>
               </div>

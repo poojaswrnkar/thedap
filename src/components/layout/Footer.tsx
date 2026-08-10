@@ -126,7 +126,7 @@ function FooterLink({
 
   const inner = (
     <>
-      {icon && <span className="text-brand-400 transition-colors group-hover:text-gold-400">{icon}</span>}
+      {icon && <span className="text-gold-500/70 transition-colors group-hover:text-gold-400">{icon}</span>}
       {children}
     </>
   );

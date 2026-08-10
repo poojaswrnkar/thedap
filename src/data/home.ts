@@ -188,8 +188,8 @@ export const services = [
 export const about = {
   label: "Who We Are",
   title: ["About", "Next Trip", "Expedition"],
-  image: "/assets/image/people.png",
-  alt: "Traveler on adventure",
+  image: "https://images.unsplash.com/photo-1576737064520-f45d313d17ff?w=1400&q=85&auto=format&fit=crop",
+  alt: "Flatlay of a vintage camera, passport, map and travel journal",
   paragraphs: [
     "We provide extensive travel services to craft perfect holiday solutions. Driven by a passionate team, we assure exclusive itineraries, smart travel choices, and highly competitive prices.",
     "Every journey is personal — we listen, we plan, and we deliver experiences that go far beyond the ordinary.",
