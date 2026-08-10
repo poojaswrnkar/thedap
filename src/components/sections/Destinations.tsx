@@ -12,11 +12,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Aurora } from "@/components/ui/Aurora";
 import { cn } from "@/lib/utils";
 
+/* One warm gold accent for the featured pick; every other badge reads as a
+ * quiet charcoal chip — restraint over a rainbow of category colors. */
 const badgeStyles = {
   featured: "bg-gold-400 text-ink-900",
-  new: "bg-brand-400 text-ink-900",
-  popular: "bg-linear-to-r from-orange-400 to-rose-500 text-white",
-  spiritual: "bg-linear-to-r from-violet-400 to-fuchsia-500 text-white",
+  new: "glass-dark text-white",
+  popular: "glass-dark text-white",
+  spiritual: "glass-dark text-white",
 } as const;
 
 const badgeIcons = { featured: Sparkles, popular: Flame, spiritual: Sparkles, new: null } as const;

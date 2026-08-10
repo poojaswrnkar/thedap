@@ -42,7 +42,7 @@
   --color-gold-600: #a67c07;
   --color-gold-700: #8c6b0a;
 
-  --font-display: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), "Fraunces", ui-serif, Georgia, serif;
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --radius-4xl: 2rem;
