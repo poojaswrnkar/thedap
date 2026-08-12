@@ -100,3 +100,4 @@ positioning. Accent words now carry a gold gradient instead. Brand colours
 45 MB and 34 MB, which would have dominated page load. Total media dropped from
 185 MB to 110 MB. They now load only when scrolled into view, behind a poster
 frame, and are skipped entirely for visitors who prefer reduced motion.
+# thedap
