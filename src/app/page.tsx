@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import BrandStatement from "@/components/sections/BrandStatement";
 import Destinations from "@/components/sections/Destinations";
 import Packages from "@/components/sections/Packages";
 import Services from "@/components/sections/Services";
@@ -14,6 +15,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <BrandStatement />
       <Destinations />
       <Packages />
       <Services />

@@ -84,6 +84,67 @@ export const heroSlides: HeroSlide[] = [
   },
 ];
 
+export type StatementBeat = {
+  /** The one-word imperative. The full stop is added by the section. */
+  word: string;
+  /** One supporting line — keep it to a single breath, 8–12 words. */
+  line: string;
+  image: string;
+  alt: string;
+  /** `object-position` for the full-bleed crop, e.g. "center 40%". */
+  focus?: string;
+  /** Optional muted loop. Falls back to `image` on phones, on Save-Data,
+   *  on slow connections and for reduced motion. */
+  video?: { src: string; poster: string };
+};
+
+/**
+ * The mood section between the hero and the destinations. Words, lines and
+ * imagery are all edited here — the section renders whatever is in this
+ * array, in this order, however many entries it has.
+ */
+export const brandStatement: { eyebrow: string; beats: StatementBeat[] } = {
+  eyebrow: "Why we travel",
+  beats: [
+    {
+      word: "Witness",
+      line: "A sunrise no photograph has ever done justice.",
+      image: "/assets/image/bhutan-scape.png",
+      alt: "Golden morning light over the Punakha valley, Bhutan",
+      focus: "center 40%",
+    },
+    {
+      word: "Create",
+      line: "The stories you'll still be telling twenty years from now.",
+      image: "/assets/image/Annapurna.png",
+      alt: "Trekkers on the trail beneath the Annapurna range, Nepal",
+      focus: "center 45%",
+    },
+    {
+      word: "Listen",
+      line: "Temple bells, market chatter, a language you don't yet speak.",
+      image: "/assets/image/Kathmandu.png",
+      alt: "Kathmandu Durbar Square alive with people at midday",
+    },
+    {
+      word: "Savour",
+      line: "Long lunches, warm spice, and nowhere to be afterwards.",
+      // Cropped wide at source — the original is portrait, and letting the
+      // browser crop a portrait to full-bleed leaves an unreadable close-up.
+      image:
+        "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=2400&h=1200&q=85&auto=format&fit=crop",
+      alt: "Bowls of curry and rice shared around a table",
+    },
+    {
+      word: "Breathe",
+      line: "Thin mountain air, and nothing at all on the schedule.",
+      image: "/assets/image/Pokhara.png",
+      alt: "Still morning on Phewa Lake, Pokhara",
+      focus: "center 60%",
+    },
+  ],
+};
+
 export type Destination = {
   slug: string;
   name: string;
