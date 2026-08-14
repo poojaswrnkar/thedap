@@ -7,7 +7,6 @@ import CtaVideo from "@/components/sections/CtaVideo";
 import StatsBar from "@/components/sections/StatsBar";
 import WhyUs from "@/components/sections/WhyUs";
 import About from "@/components/sections/About";
-import Trips from "@/components/sections/Trips";
 import Dreaming from "@/components/sections/Dreaming";
 import Contact from "@/components/sections/Contact";
 
@@ -23,7 +22,6 @@ export default function HomePage() {
       <StatsBar />
       <WhyUs />
       <About />
-      <Trips />
       <Dreaming />
       <Contact />
     </>

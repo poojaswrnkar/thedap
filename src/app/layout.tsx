@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     title: `${site.name} — Explore the World with Us`,
-    description: "Discover amazing tours in Bhutan, Nepal, India & Paris. Book your dream journey today!",
+    description: "Discover amazing tours in Bhutan, Nepal and India. Book your dream journey today!",
     url: site.url,
     siteName: site.name,
     locale: "en_IN",

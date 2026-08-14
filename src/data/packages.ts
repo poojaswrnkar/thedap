@@ -57,32 +57,6 @@ export const packages: Package[] = [
     priceFrom: 34999,
     priceNow: 27999,
   },
-  {
-    slug: "kedarnath",
-    name: "Kedarnath",
-    title: "Sacred Himalayan Pilgrimage",
-    duration: "5 Days & 4 Nights",
-    desc: "A devotional journey above the clouds to one of the twelve Jyotirlingas.",
-    image: "https://images.unsplash.com/photo-1730021618560-cdb6b81592c2?w=1400&q=85&auto=format&fit=crop",
-    href: "/tours/kedarnath",
-    rating: 5.0,
-    badge: "Pilgrimage",
-    priceFrom: 24999,
-    priceNow: 19999,
-  },
-  {
-    slug: "paris",
-    name: "Paris",
-    title: "Romance in the City of Lights",
-    duration: "5 Days & 4 Nights",
-    desc: "The Eiffel Tower, the Seine, and charming boulevards at every turn.",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&q=85&auto=format&fit=crop",
-    href: "/tours/paris",
-    rating: 4.7,
-    badge: "Featured",
-    priceFrom: 179999,
-    priceNow: 149999,
-  },
 ];
 
 export function formatINR(n: number) {

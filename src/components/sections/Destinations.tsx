@@ -2,31 +2,46 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { ArrowRight, Flame, Heart, MapPinned, Mountain, Sparkles, Thermometer } from "lucide-react";
-import { destinations, type Destination } from "@/data/home";
+import {
+  ArrowRight,
+  Bike,
+  Flower2,
+  Gem,
+  Landmark,
+  MapPinned,
+  PartyPopper,
+  PawPrint,
+  Footprints,
+  Plane,
+  Sparkles,
+} from "lucide-react";
+import { tripPrograms, type ProgramGroup, type TripProgram } from "@/data/home";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { TiltCard } from "@/components/ui/TiltCard";
+import { MagneticButton } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { Aurora } from "@/components/ui/Aurora";
 import { cn } from "@/lib/utils";
 
-/* One warm gold accent for the featured pick; every other badge reads as a
- * quiet charcoal chip — restraint over a rainbow of category colors. */
-const badgeStyles = {
-  featured: "bg-gold-400 text-ink-900",
-  new: "glass-dark text-white",
-  popular: "glass-dark text-white",
-  spiritual: "glass-dark text-white",
+/* The client's brief marked these groups with emoji. They're carried over as
+ * lucide icons instead — emoji render differently on every platform and read
+ * as chat, not as a luxury operator's brochure. */
+const groupIcons = {
+  classic: Landmark,
+  specialty: Sparkles,
+  trekking: Footprints,
+  aerial: Plane,
+  pilgrimage: Flower2,
+  wildlife: PawPrint,
+  festival: PartyPopper,
+  luxury: Gem,
+  active: Bike,
 } as const;
 
-const badgeIcons = { featured: Sparkles, popular: Flame, spiritual: Sparkles, new: null } as const;
-const statIcons = { mountain: Mountain, temp: Thermometer } as const;
-
 export default function Destinations() {
-  const featuredDest = destinations.find((d) => d.featured);
-  const restDest = destinations.filter((d) => !d.featured);
+  const [active, setActive] = useState(tripPrograms[0].id);
+  const program = tripPrograms.find((p) => p.id === active) ?? tripPrograms[0];
 
   return (
     <section
@@ -42,129 +57,178 @@ export default function Destinations() {
           eyebrowIcon={<MapPinned className="size-3.5" />}
           titleGold="Our"
           titleAccent="Destinations"
-          subtitle="Handcrafted journeys to the world's most breathtaking places."
-          className="mb-14"
+          subtitle="The journeys we run, by country — and a bespoke route to anywhere else."
+          className="mb-10"
         />
 
-        <div className="flex flex-col gap-5">
-          {/* The lead destination gets full-width billing on every screen size. */}
-          {featuredDest && (
-            <Reveal>
-              <DestinationCard d={featuredDest} featured />
-            </Reveal>
-          )}
-
-          {/* The rest: a swipeable row on phones, a grid from tablet up — never a
-              tall single-file stack, which is what made this section feel endless on mobile. */}
-          <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
-            {restDest.map((d, i) => (
-              <Reveal
-                key={d.slug}
-                delay={i * 0.07}
-                className="w-[70%] shrink-0 snap-start sm:w-auto"
-              >
-                <DestinationCard d={d} />
-              </Reveal>
-            ))}
+        {/* Country switch. A rail on phones so four tabs never wrap to two rows. */}
+        <Reveal>
+          <div
+            role="tablist"
+            aria-label="Destinations"
+            className="no-scrollbar -mx-5 mb-8 flex snap-x gap-2.5 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0"
+          >
+            {tripPrograms.map((p) => {
+              const selected = p.id === active;
+              return (
+                <button
+                  key={p.id}
+                  role="tab"
+                  aria-selected={selected}
+                  aria-controls={`program-${p.id}`}
+                  onClick={() => setActive(p.id)}
+                  className={cn(
+                    "shrink-0 snap-start rounded-full px-5 py-2.5 text-[0.8rem] font-bold tracking-[0.1em] uppercase transition-all duration-400",
+                    selected
+                      ? "bg-linear-to-r from-gold-300 to-gold-500 text-ink-900 shadow-[0_10px_30px_-12px_rgba(166,124,7,0.6)]"
+                      : "glass text-ink-700 hover:border-gold-500/40 hover:text-gold-700",
+                  )}
+                >
+                  {p.name}
+                </button>
+              );
+            })}
           </div>
-        </div>
+        </Reveal>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={program.id}
+            id={`program-${program.id}`}
+            role="tabpanel"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <ProgramBanner program={program} />
+
+            {program.groups && (
+              <div className="mt-5 grid gap-5 md:grid-cols-2">
+                {program.groups.map((group, i) => (
+                  <GroupCard
+                    key={group.label}
+                    group={group}
+                    // An odd number of groups would leave the last card stranded
+                    // in a half-width column; let it run the full width instead.
+                    wide={program.groups!.length % 2 === 1 && i === program.groups!.length - 1}
+                  />
+                ))}
+              </div>
+            )}
+
+            {program.bespoke && <BespokeCard bespoke={program.bespoke} />}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
 }
 
-function DestinationCard({ d, featured }: { d: Destination; featured?: boolean }) {
-  const [wished, setWished] = useState(false);
-  const BadgeIcon = d.badge ? badgeIcons[d.badge.kind] : null;
+/** The country's photograph, name and a way through to its full tour page. */
+function ProgramBanner({ program }: { program: TripProgram }) {
+  return (
+    <div className="ring-aurora relative h-56 overflow-hidden rounded-4xl sm:h-64 lg:h-72">
+      <Image
+        src={program.image}
+        alt={program.alt}
+        fill
+        sizes="(max-width: 1300px) 100vw, 1300px"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-linear-to-t from-charcoal-950 via-charcoal-950/45 to-charcoal-950/10" />
+
+      <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-4 p-6 sm:p-8">
+        <div>
+          <h3 className="font-display text-[clamp(1.9rem,4.5vw,3rem)] leading-none font-black tracking-[-0.03em] text-white">
+            {program.name}
+          </h3>
+          <p className="mt-2.5 text-[0.92rem] font-light tracking-wide text-slate-200/85">
+            {program.tagline}
+          </p>
+        </div>
+
+        {program.href && (
+          <Link
+            href={program.href}
+            className="group inline-flex items-center gap-2.5 border-b border-white/30 pb-1.5 text-[0.78rem] font-semibold tracking-[0.14em] text-white uppercase transition-colors duration-400 hover:border-gold-400 hover:text-gold-300"
+          >
+            View {program.name} tours
+            <ArrowRight className="size-4 transition-transform duration-400 group-hover:translate-x-1.5" />
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GroupCard({ group, wide }: { group: ProgramGroup; wide?: boolean }) {
+  const Icon = groupIcons[group.icon];
 
   return (
-    <TiltCard intensity={featured ? 5 : 8} className="group ring-aurora h-full rounded-4xl">
-      <Link
-        href={d.href}
-        aria-label={`Explore ${d.name}`}
-        className="glass relative flex h-full flex-col overflow-hidden rounded-4xl transition-shadow duration-500 hover:shadow-[0_30px_70px_-30px_rgba(0,0,0,0.9)]"
-      >
-        {/* On the tall featured card the image absorbs the extra height, not the copy. */}
-        <div className={cn("relative overflow-hidden", featured ? "h-64 sm:h-80 lg:h-96" : "h-52")}>
-          <Image
-            src={d.image}
-            alt={d.alt}
-            fill
-            sizes={featured ? "(max-width: 1024px) 100vw, 55vw" : "(max-width: 640px) 100vw, 33vw"}
-            className="object-cover transition-transform duration-[1.1s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-charcoal-950 via-charcoal-950/35 to-transparent" />
+    <article
+      className={cn(
+        "ring-aurora glass flex h-full flex-col rounded-4xl p-6",
+        wide && "md:col-span-2",
+      )}
+    >
+      <div className="mb-5 flex items-center gap-3">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold-100/80 text-gold-700 ring-1 ring-gold-500/25">
+          <Icon className="size-4" />
+        </span>
+        <h4 className="text-[1.02rem] leading-tight font-bold text-ink-900">{group.label}</h4>
+      </div>
 
-          {d.badge && (
-            <span
-              className={cn(
-                "absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.68rem] font-bold tracking-wider uppercase",
-                badgeStyles[d.badge.kind],
-              )}
-            >
-              {BadgeIcon && <BadgeIcon className="size-3" />}
-              {d.badge.label}
-            </span>
-          )}
+      <ul className="flex flex-1 flex-col gap-4">
+        {group.items.map((item) => (
+          <li key={item.title} className="border-t border-ink-900/8 pt-4 first:border-0 first:pt-0">
+            <p className="text-[0.92rem] font-semibold text-ink-900">{item.title}</p>
+            <p className="mt-1.5 text-[0.85rem] leading-relaxed text-ink-500">{item.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
 
-          {d.stats && (
-            <div className="absolute bottom-4 left-4 flex gap-2">
-              {d.stats.map((s) => {
-                const Icon = statIcons[s.icon as keyof typeof statIcons] ?? Mountain;
-                return (
-                  <span
-                    key={s.label}
-                    className="glass-dark inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-medium text-white"
-                  >
-                    <Icon className="size-3 text-gold-300" />
-                    {s.label}
-                  </span>
-                );
-              })}
-            </div>
-          )}
-        </div>
+/** Everywhere else: no menu, just an invitation to tell us where. */
+function BespokeCard({
+  bespoke,
+}: {
+  bespoke: NonNullable<TripProgram["bespoke"]>;
+}) {
+  return (
+    <article className="ring-aurora glass mt-5 rounded-4xl p-7 text-center sm:p-12">
+      <h4 className="mx-auto max-w-2xl text-[clamp(1.5rem,3.2vw,2.3rem)] leading-[1.15] font-bold tracking-[-0.02em] text-ink-900">
+        Beyond South Asia,{" "}
+        <span className="text-gold-grad">Every Journey is Uniquely Yours.</span>
+      </h4>
 
-        <div className={cn("flex flex-col p-6", !featured && "flex-1")}>
-          <div className="mb-3 flex items-start justify-between gap-3">
-            <span className="rounded-full border border-gold-500/25 bg-gold-100/70 px-2.5 py-1 text-[0.66rem] font-semibold tracking-[0.14em] text-gold-700 uppercase">
-              {d.region}
-            </span>
-            <button
-              type="button"
-              aria-label={`${wished ? "Remove" : "Add"} ${d.name} ${wished ? "from" : "to"} wishlist`}
-              aria-pressed={wished}
-              onClick={(e) => {
-                e.preventDefault();
-                setWished((v) => !v);
-              }}
-              className="flex size-8 shrink-0 items-center justify-center rounded-full border border-ink-900/12 text-ink-500 transition-all duration-300 hover:scale-110 hover:border-rose-400/50 hover:text-rose-400"
-            >
-              <motion.span animate={wished ? { scale: [1, 1.35, 1] } : {}} transition={{ duration: 0.35 }}>
-                <Heart className={cn("size-4", wished && "fill-rose-500 text-rose-500")} />
-              </motion.span>
-            </button>
-          </div>
+      <p className="mt-6 text-[0.8rem] font-semibold tracking-[0.12em] text-gold-700 uppercase">
+        {bespoke.intro}
+      </p>
 
-          <h3
-            className={cn(
-              "font-extrabold text-ink-900 transition-colors duration-300 group-hover:text-gold-600",
-              featured ? "text-3xl lg:text-4xl" : "text-2xl",
-            )}
+      <div className="mt-4 flex flex-wrap justify-center gap-2">
+        {bespoke.places.map((place) => (
+          <span
+            key={place}
+            className="rounded-full border border-gold-500/25 bg-gold-100/60 px-3.5 py-1.5 text-[0.78rem] font-semibold text-gold-700"
           >
-            {d.name}
-          </h3>
-
-          <p className={cn("mt-2.5 text-[0.9rem] leading-relaxed text-ink-500", !featured && "flex-1")}>
-            {d.desc}
-          </p>
-
-          <span className="mt-5 inline-flex items-center gap-2 text-[0.78rem] font-bold tracking-[0.12em] text-gold-600 uppercase">
-            Discover
-            <ArrowRight className="size-4 transition-transform duration-400 group-hover:translate-x-1.5" />
+            {place}
           </span>
-        </div>
-      </Link>
-    </TiltCard>
+        ))}
+      </div>
+
+      <p className="mx-auto mt-6 max-w-2xl text-[0.95rem] leading-relaxed text-ink-500">
+        {bespoke.body}
+      </p>
+
+      <div className="mt-8 flex justify-center">
+        <MagneticButton href="/#contact" variant="gold">
+          Plan your journey
+          <ArrowRight className="size-4" />
+        </MagneticButton>
+      </div>
+    </article>
   );
 }

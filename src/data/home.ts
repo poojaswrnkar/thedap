@@ -185,16 +185,6 @@ export const destinations: Destination[] = [
     badge: { label: "New", kind: "new" },
   },
   {
-    slug: "paris",
-    name: "Paris",
-    region: "Europe",
-    desc: "Art, cuisine, and timeless romance beneath the City of Lights.",
-    image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1400&q=85&auto=format&fit=crop",
-    alt: "Eiffel Tower at sunset, Paris",
-    href: "/tours/paris",
-    badge: { label: "Popular", kind: "popular" },
-  },
-  {
     slug: "india",
     name: "India",
     region: "South Asia",
@@ -202,16 +192,6 @@ export const destinations: Destination[] = [
     image: "https://images.unsplash.com/photo-1545562083-c583d014b4f2?w=1400&q=85&auto=format&fit=crop",
     alt: "Colorful Holi festival in India",
     href: "/tours/india",
-  },
-  {
-    slug: "kedarnath",
-    name: "Kedarnath",
-    region: "Uttarakhand",
-    desc: "A sacred Himalayan pilgrimage above the clouds — where devotion meets nature.",
-    image: "https://images.unsplash.com/photo-1730021618560-cdb6b81592c2?w=1400&q=85&auto=format&fit=crop",
-    alt: "Kedarnath temple with snow-capped peaks",
-    href: "/tours/kedarnath",
-    badge: { label: "Pilgrimage", kind: "spiritual" },
   },
 ];
 
@@ -287,115 +267,268 @@ export const whyUs = {
   ],
 };
 
-export type Trip = {
-  type: string;
-  typeIcon: "plane" | "car" | "bus" | "train" | "hiking";
-  from: { city: string; image: string };
-  to: { city: string; image: string };
-  meta: { icon: string; label: string }[];
+export type ProgramCategory = {
+  /** Bold lead-in — the name of the circuit or experience. */
+  title: string;
+  /** One line of what it covers. */
+  desc: string;
 };
 
-export const tripTabs: { id: string; label: string; icon: "dragon" | "mountain" | "om"; trips: Trip[] }[] = [
+export type ProgramGroup = {
+  label: string;
+  icon:
+    | "classic"
+    | "specialty"
+    | "trekking"
+    | "aerial"
+    | "pilgrimage"
+    | "wildlife"
+    | "festival"
+    | "luxury"
+    | "active";
+  items: ProgramCategory[];
+};
+
+export type TripProgram = {
+  id: string;
+  name: string;
+  /** Short line under the country name on its banner. */
+  tagline: string;
+  image: string;
+  alt: string;
+  /** The country's own tour page, where one exists. */
+  href?: string;
+  groups?: ProgramGroup[];
+  /** Used instead of `groups` where nothing is off the shelf. */
+  bespoke?: { headline: string; intro: string; body: string; places: string[] };
+};
+
+/**
+ * What we actually run, by country, in the order the homepage shows them.
+ * Adding a category is one entry in `items`; adding a country is one entry
+ * here and it picks up its own tab.
+ */
+export const tripPrograms: TripProgram[] = [
   {
-    id: "bhutan",
-    label: "From Bhutan",
-    icon: "dragon",
-    trips: [
+    id: "india",
+    name: "India",
+    tagline: "A thousand cultures, one soul",
+    image:
+      "https://images.unsplash.com/photo-1545562083-c583d014b4f2?w=2000&q=85&auto=format&fit=crop",
+    alt: "The Taj Mahal reflected in its watercourse at dawn, Agra",
+    href: "/tours/india",
+    groups: [
       {
-        type: "Flight",
-        typeIcon: "plane",
-        from: { city: "Bhutan", image: "/assets/image/monument/bhutan.jpg" },
-        to: { city: "Delhi", image: "/assets/image/monument/delhi.jpg" },
-        meta: [
-          { icon: "clock", label: "2h 30m" },
-          { icon: "calendar", label: "Daily" },
+        label: "Classic & Iconic Circuits",
+        icon: "classic",
+        items: [
+          {
+            title: "The Golden Triangle & Beyond",
+            desc: "Delhi, Agra, Jaipur — extending to Varanasi or Udaipur.",
+          },
+          {
+            title: "South India Cultural Highlights",
+            desc: "Tamil Nadu's temple architecture paired with Kerala's backwaters and spice plantations.",
+          },
+          {
+            title: "Leh-Ladakh, Himachal, Sikkim & Darjeeling",
+            desc: "For scenic and mountain landscapes.",
+          },
         ],
       },
       {
-        type: "Flight",
-        typeIcon: "plane",
-        from: { city: "Bhutan", image: "/assets/image/monument/bhutan.jpg" },
-        to: { city: "Bali", image: "/assets/image/monument/Bali.jpg" },
-        meta: [
-          { icon: "clock", label: "8h 15m" },
-          { icon: "rotate", label: "3x/week" },
-        ],
-      },
-      {
-        type: "Road Trip",
-        typeIcon: "car",
-        from: { city: "Bhutan", image: "/assets/image/monument/bhutan.jpg" },
-        to: { city: "Darjeeling", image: "/assets/image/monument/Darjeeling.jpg" },
-        meta: [
-          { icon: "clock", label: "6h Drive" },
-          { icon: "mountain", label: "Scenic" },
-        ],
-      },
-      {
-        type: "Flight",
-        typeIcon: "plane",
-        from: { city: "Bhutan", image: "/assets/image/monument/bhutan.jpg" },
-        to: { city: "Goa", image: "/assets/image/monument/Goa.jpg" },
-        meta: [
-          { icon: "clock", label: "4h 10m" },
-          { icon: "sun", label: "Seasonal" },
+        label: "Specialty & Experiential Journeys",
+        icon: "specialty",
+        items: [
+          {
+            title: "Palace, Heritage & Luxury",
+            desc: "Staying in converted royal palaces, heritage havelis, or taking luxury trains (e.g. Maharajas' Express).",
+          },
+          {
+            title: "Wildlife & Conservation Safaris",
+            desc: "Jeep safaris in Ranthambore, Bandhavgarh, Panna, or Jim Corbett for wildlife enthusiasts.",
+          },
+          {
+            title: "Spiritual & Wellness Retreats",
+            desc: "Authentic Ayurveda in Kerala, yoga immersions in Rishikesh, or sacred spiritual trails along the Ganges.",
+          },
+          {
+            title: "Living Culture, Crafts & Rural India",
+            desc: "Artisan visits (craft villages, textile weaving, pottery), community-led tourism, and rural artisan initiatives.",
+          },
+          {
+            title: "Culinary & Spice Routes",
+            desc: "Chef-led street food walks, regional cooking masterclasses, and spice garden tours.",
+          },
         ],
       },
     ],
   },
   {
     id: "nepal",
-    label: "To Nepal",
-    icon: "mountain",
-    trips: [
+    name: "Nepal",
+    tagline: "Ancient culture meets towering peaks",
+    image:
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=2000&q=85&auto=format&fit=crop",
+    alt: "Sunrise over the Annapurna range, Nepal",
+    href: "/tours/nepal",
+    groups: [
       {
-        type: "Overland",
-        typeIcon: "bus",
-        from: { city: "Delhi", image: "/assets/image/monument/delhi.jpg" },
-        to: { city: "Nepal", image: "/assets/image/monument/nepal.jpg" },
-        meta: [
-          { icon: "clock", label: "12h" },
-          { icon: "road", label: "Direct" },
+        label: "Classic Cultural & Scenic Highlights",
+        icon: "classic",
+        items: [
+          {
+            title: "The Golden Triangle of Nepal",
+            desc: "Kathmandu Valley (Patan, Bhaktapur, Swayambhunath), Pokhara (Phewa Lake, Sarangkot views) and Chitwan National Park.",
+          },
+          {
+            title: "Lumbini & Sacred Buddhist Circuit",
+            desc: "Birthplace of Lord Buddha, ancient monasteries, and tranquility trails.",
+          },
+          {
+            title: "Hill Stations & Mountain Views",
+            desc: "Nagarkot, Dhulikhel and Bandipur for panoramic Himalayan views without demanding multi-day treks.",
+          },
         ],
       },
       {
-        type: "Flight",
-        typeIcon: "plane",
-        from: { city: "Bangkok", image: "/assets/image/monument/Bangkok.jpg" },
-        to: { city: "Nepal", image: "/assets/image/monument/nepal.jpg" },
-        meta: [
-          { icon: "clock", label: "3h 15m" },
-          { icon: "plane", label: "Daily" },
+        label: "Trekking & Mountain Expeditions",
+        icon: "trekking",
+        items: [
+          {
+            title: "Iconic Himalayan Treks",
+            desc: "Everest Base Camp (EBC), Annapurna Circuit, and Annapurna Base Camp (ABC) for active global trekkers.",
+          },
+          {
+            title: "Soft & Short Treks",
+            desc: "Ghorepani Poon Hill or Annapurna Foothills (4–7 days) for families or travellers wanting high views with moderate effort.",
+          },
+          {
+            title: "Offbeat & Remote Trails",
+            desc: "Langtang Valley, Manaslu Circuit, or Upper Mustang for experienced travellers seeking fewer crowds.",
+          },
+        ],
+      },
+      {
+        label: "Luxury Escapes & Aerial Tours",
+        icon: "aerial",
+        items: [
+          {
+            title: "Heli-Tours & Mountain Flights",
+            desc: "One-hour scenic Everest flights from Kathmandu, or helicopter breakfasts at Everest Base Camp / Kala Patthar.",
+          },
+          {
+            title: "Boutique & Heritage Stays",
+            desc: "Luxury lodges in Dhulikhel, luxury camps in Pokhara, and high-end mountain resorts with private views.",
+          },
+        ],
+      },
+      {
+        label: "Pilgrimage & Spiritual Journeys",
+        icon: "pilgrimage",
+        items: [
+          {
+            title: "Muktinath & Pashupatinath Yatra",
+            desc: "High-demand routes for pilgrims and heritage travellers, by charter helicopter or overland transfer.",
+          },
+          {
+            title: "Monastery Immersion & Meditation",
+            desc: "Yoga retreats in Pokhara and monastery stays with morning chanting and mindfulness sessions.",
+          },
+        ],
+      },
+      {
+        label: "Wildlife Safaris & Soft Adventure",
+        icon: "wildlife",
+        items: [
+          {
+            title: "Subtropical Jungle Safaris",
+            desc: "One-horned rhino and Royal Bengal tiger tracking in Chitwan or Bardia National Park — jeep, canoe and walking safaris.",
+          },
+          {
+            title: "Thrill & White-Water Rafting",
+            desc: "Trishuli or Bhote Koshi rafting, paragliding in Pokhara, and zip-lining.",
+          },
         ],
       },
     ],
   },
   {
-    id: "india",
-    label: "Across India",
-    icon: "om",
-    trips: [
+    id: "bhutan",
+    name: "Bhutan",
+    tagline: "Where mountains touch the sky",
+    image:
+      "https://images.unsplash.com/photo-1742539327294-a050227d15b7?w=2000&q=85&auto=format&fit=crop",
+    alt: "Mist-covered monastery in Paro Valley, Bhutan",
+    href: "/tours/bhutan",
+    groups: [
       {
-        type: "Train",
-        typeIcon: "train",
-        from: { city: "Delhi", image: "/assets/image/monument/delhi.jpg" },
-        to: { city: "Agra & Jaipur", image: "/assets/image/monument/agara.jpg" },
-        meta: [
-          { icon: "clock", label: "6 Days" },
-          { icon: "landmark", label: "Heritage" },
+        label: "Classic Cultural Highlights",
+        icon: "classic",
+        items: [
+          {
+            title: "Essential Bhutan — Paro, Thimphu & Punakha",
+            desc: "Iconic Tiger's Nest (Paro Taktsang), Punakha Dzong, the Suspension Bridge, Buddha Dordenma and Tashichho Dzong.",
+          },
+          {
+            title: "Western & Central Valleys — Phobjikha & Bumthang",
+            desc: "Black-necked crane habitat in Phobjikha Valley, the ancient temples of Bumthang, and traditional farmstays.",
+          },
         ],
       },
       {
-        type: "Pilgrimage",
-        typeIcon: "hiking",
-        from: { city: "Delhi", image: "/assets/image/monument/delhi.jpg" },
-        to: { city: "Kedarnath", image: "/assets/image/Kedarnath_Temple_in_Rainy_season.jpg" },
-        meta: [
-          { icon: "clock", label: "7 Days" },
-          { icon: "mountain", label: "Sacred" },
+        label: "Cultural Festivals & Tsechus",
+        icon: "festival",
+        items: [
+          {
+            title: "Festival Tours — Paro, Thimphu & Punakha Tshechus",
+            desc: "Colourful masked dances (Cham), spiritual blessings, the unfurling of giant Thangka tapestries (Thongdrel), and authentic local dress traditions.",
+          },
+        ],
+      },
+      {
+        label: "Ultra-Luxury & Wellness Retreats",
+        icon: "luxury",
+        items: [
+          {
+            title: "Luxury Valleys Circuit",
+            desc: "Featured stays at Six Senses, Amankora, Como Uma or Le Méridien, with private transfers, personalised blessings by monks, and private hot-stone baths.",
+          },
+          {
+            title: "Himalayan Wellness & Mindfulness",
+            desc: "Traditional Sowa Rigpa herbal therapy, Dotsho (Bhutanese hot-stone baths), outdoor yoga over mountain valleys, and meditation in monasteries.",
+          },
+        ],
+      },
+      {
+        label: "Active & Experiential Travel",
+        icon: "active",
+        items: [
+          {
+            title: "Gross National Happiness & Rural Living",
+            desc: "Farmstay visits, butter tea brewing, archery lessons (the national sport), and meetings with local monks and artisans.",
+          },
+          {
+            title: "Mountain Biking & White-Water Rafting",
+            desc: "Gentle rafting along the Pho Chhu and Mo Chhu rivers in Punakha.",
+          },
         ],
       },
     ],
+  },
+  {
+    id: "beyond",
+    name: "Beyond South Asia",
+    tagline: "Every journey is uniquely yours",
+    image:
+      "https://images.unsplash.com/photo-1528181304800-259b08848526?w=2000&q=85&auto=format&fit=crop",
+    alt: "Golden temple rooftops under a bright sky in Thailand",
+    bespoke: {
+      headline: "Beyond South Asia, Every Journey is Uniquely Yours.",
+      intro: "For international destinations including Vietnam, Bali, Thailand & beyond:",
+      body: "We craft fully customized itineraries tailored to your exact preferences, travel style and pace. Let us know your dream destination, and our travel specialists will curate a personalized travel program tailored specifically for you.",
+      places: ["Vietnam", "Bali", "Thailand", "& Beyond"],
+    },
   },
 ];
 
@@ -420,14 +553,12 @@ export const ctaBanner = {
   video: "/assets/image/travel.mp4",
 };
 
-export const destinationOptions = ["Bhutan", "Nepal", "India", "Paris", "Kedarnath", "Other"];
+export const destinationOptions = ["Bhutan", "Nepal", "India", "Other"];
 
 export const marqueeWords = [
   "Bhutan",
   "Nepal",
   "India",
-  "Paris",
-  "Kedarnath",
   "Pokhara",
   "Thimphu",
   "Varanasi",

@@ -4,13 +4,12 @@ export const site = {
   url: "https://www.nextripexpedition.com",
   logo: "/assets/image/travel-logo.png",
   description:
-    "Explore Bhutan, Nepal, India & Paris with Next Trip Expedition. Book customized tours, flights, hotels & holiday packages at the best price.",
+    "Explore Bhutan, Nepal and India with Next Trip Expedition. Book customized tours, flights, hotels & holiday packages at the best price.",
   keywords: [
     "travel agency India",
     "Bhutan tour",
     "Nepal trekking",
     "India tours",
-    "Paris travel",
     "holiday packages",
     "travel booking",
     "tour operator",
@@ -44,7 +43,6 @@ export const navLinks = [
   { label: "Destinations", href: "/#destinations", icon: "map" },
   { label: "Services", href: "/#services", icon: "bell" },
   { label: "About", href: "/#about", icon: "info" },
-  { label: "Trips", href: "/#trips", icon: "route" },
   { label: "Contact", href: "/#contact", icon: "mail" },
 ] as const;
 
@@ -53,13 +51,11 @@ export const footerNav = [
   { label: "Destinations", href: "/#destinations" },
   { label: "Services", href: "/#services" },
   { label: "About Us", href: "/#about" },
-  { label: "Packages", href: "/#trips" },
+  { label: "Packages", href: "/#packages" },
 ] as const;
 
 export const footerDestinations = [
   { label: "India", href: "/tours/india" },
   { label: "Nepal", href: "/tours/nepal" },
   { label: "Bhutan", href: "/tours/bhutan" },
-  { label: "Paris", href: "/tours/paris" },
-  { label: "Kedarnath", href: "/tours/kedarnath" },
 ] as const;
